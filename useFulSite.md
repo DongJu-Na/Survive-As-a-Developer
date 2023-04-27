@@ -8,4 +8,4 @@
 [Catsbi's DLog](https://catsbi.oopy.io/)
 
 ### Devlop
-[오픈소스트렌딩및랭킹](https://ossinsight.io/) 오픈소스트렌딩및랭킹
+[오픈소스트렌딩및랭킹](https://ossinsight.io/)
