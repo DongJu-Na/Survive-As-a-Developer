@@ -53,6 +53,7 @@ LocalDate date = LocalDate.now();
   </p>
 </details>
 
+<br/>
 
 <details>
   <summary>오버로딩(Overloading)과 오버라이딩(Overriding) 대해 설명해보실 수 있나요?</summary>
@@ -112,7 +113,7 @@ println() 메소드는 전달받는 매개변수의 타입에 따라 다음과 �
 
 <br/>
 <hr/>
-오버라이딩의 조건
+<b>오버라이딩의 조건</b>
 자바에서 메소드를 오버라이딩하기 위한 조건은 다음과 같습니다.
 
 
