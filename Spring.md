@@ -2,7 +2,7 @@
   <summary>스프링의 기초 원리 - DI, IoC 가 왜 사용되었는지?</summary>
   </br>
   <pre>
-DI(Dependency Injection)와 IoC(Inversion of Control)는 스프링 프레임워크의 핵심 원리로, 이 두 가지 개념은 <u>더 유연하고 확장 가능한 애플리케이션을 설계하는 데 중요한 역할을 합니다.</u> 이 개념들이 왜 사용되는지 설명하겠습니다.
+<b>DI(Dependency Injection)</b>와 <b>IoC(Inversion of Control)</b>는 스프링 프레임워크의 핵심 원리로, 이 두 가지 개념은 <u>더 유연하고 확장 가능한 애플리케이션을 설계하는 데 중요한 역할을 합니다.</u> 이 개념들이 왜 사용되는지 설명하겠습니다.
 
 <br/><br/><br/>
 
@@ -84,15 +84,50 @@ Spring AOP는 <u>횡단 관심사를 핵심 비즈니스 로직에서 분리하�
   <summary>Spring Interceptor, Filter 의 차이점과 사용용도에 대해 설명해보실 수 있나요?</summary>
   </br>
   <pre>
-
+  <b>Interceptor</b>와 <b>Filter</b>는 웹 애플리케이션에서 요청과 응답을 가로채고 처리하는 데 사용되는 두 가지 주요 구성 요소입니다. 이들은 비슷한 기능을 제공하지만, 사용 시점과 용도가 다릅니다. 아래에 이들의 차이점과 사용 용도를 설명하고, HTML 테이블로 요약하겠습니다.
   </pre>
-  <p><b></b><br/><br/>
-  <code></code>
-  <ul>
-   <li></li>
-   <li></li>
-  </ul>
-  </p>
+  <table border="1">
+      <thead>
+          <tr>
+              <th>구분</th>
+              <th>Filter</th>
+              <th>Interceptor</th>
+          </tr>
+      </thead>
+      <tbody>
+          <tr>
+              <td>정의</td>
+              <td>서블릿 스펙에 정의된 구성 요소로, 요청과 응답을 가로채고 처리</td>
+              <td>스프링 MVC에서 제공하는 구성 요소로, 핸들러 실행 전후에 작업 수행</td>
+          </tr>
+          <tr>
+              <td>동작 레벨</td>
+              <td>서블릿 컨테이너 레벨</td>
+              <td>스프링 핸들러(컨트롤러) 레벨</td>
+          </tr>
+          <tr>
+              <td>주요 사용 예</td>
+              <td>인코딩 처리, 로깅, 보안 검사</td>
+              <td>로그인 체크, 로깅, 공통 작업 처리</td>
+          </tr>
+          <tr>
+              <td>적용 범위</td>
+              <td>애플리케이션 전체 (글로벌 적용)</td>
+              <td>특정 핸들러에만 적용 가능 (정밀한 제어)</td>
+          </tr>
+          <tr>
+              <td>초기화 및 종료</td>
+              <td>init(), destroy() 메서드를 통해 초기화 및 종료 작업 수행</td>
+              <td>preHandle(), postHandle(), afterCompletion() 메서드를 통해 요청 전후 작업 수행</td>
+          </tr>
+      </tbody>
+  </table>
+  <pre>
+  <b>요약</b>
+  Filter는 서블릿 스펙에 정의된 구성 요소로, 서블릿 컨테이너 레벨에서 요청과 응답을 가로채고 처리합니다. 주로 인코딩 처리, 로깅, 보안 검사 등 전역적으로 필요한 작업에 사용됩니다.
+
+  Interceptor는 스프링 MVC에서 제공하는 구성 요소로, 스프링 핸들러(컨트롤러) 실행 전후에 작업을 수행합니다. 로그인 체크, 로깅, 공통 작업 처리 등 특정 요청 처리 흐름을 세밀하게 제어하는 데 유용합니다.
+  </pre>
 </details>
 
 <br/>
