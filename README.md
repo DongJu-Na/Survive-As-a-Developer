@@ -204,7 +204,8 @@ UX실
 - [Network]()
 - [Database]()
 - [Etc]()
-- [Java, Spring]()
+- [Java](Java.md)
+- [Spring](Spring.md)
 - [JavaScript]()
 - [useFulSite](useFulSite.md)
 
