@@ -102,8 +102,8 @@ Spring AOP는 <u>횡단 관심사를 핵심 비즈니스 로직에서 분리하�
           </tr>
           <tr>
               <td>동작 레벨</td>
-              <td>서블릿 컨테이너 레벨</td>
-              <td>스프링 핸들러(컨트롤러) 레벨</td>
+              <td>서블릿 컨테이너 레벨 (웹 컨테이너)</td>
+              <td>스프링 핸들러(컨트롤러) 레벨(스프링 컨테이너)</td>
           </tr>
           <tr>
               <td>주요 사용 예</td>
@@ -134,6 +134,49 @@ Spring AOP는 <u>횡단 관심사를 핵심 비즈니스 로직에서 분리하�
 
 <details>
   <summary>Spring MVC에 대해 설명해보실 수 있나요?</summary>
+  </br>
+  <pre>
+Spring MVC(Spring Model-View-Controller)는 스프링 프레임워크의 웹 애플리케이션 개발을 위한 모듈로, 전통적인 MVC 패턴을 기반으로 웹 애플리케이션을 구성하고 동작시킵니다. Spring MVC는 웹 애플리케이션의 각 부분을 명확히 분리하여, 유지보수성과 확장성을 높이는 데 중점을 둡니다.
+<br/>
+<b>핵심 개념</b><br/>
+1.<b>Model (모델)</b>
+모델은 애플리케이션의 데이터 및 비즈니스 로직을 담당합니다. 데이터베이스와 상호작용하거나, 비즈니스 로직을 처리하여 뷰에 전달할 데이터를 준비합니다. 스프링에서는 주로 Java 객체나 @Service 빈을 통해 모델을 구현합니다.
+<br/>
+2.<b>View (뷰)</b>
+뷰는 사용자에게 정보를 표시하는 부분으로, HTML, JSP, Thymeleaf, FreeMarker 등을 사용하여 구현할 수 있습니다. 모델로부터 받은 데이터를 사용자에게 표시합니다.
+<br/>
+3.<b>Controller (컨트롤러)</b>
+컨트롤러는 사용자의 요청을 처리하고, 적절한 모델과 뷰를 선택하는 역할을 합니다. 스프링에서는 주로 @Controller 애너테이션을 사용하여 컨트롤러를 정의합니다.
+
+<br/>
+<b>주요 구성 요소</b><br/>
+<b>DispatcherServlet</b>
+Spring MVC의 중심 컴포넌트로, 모든 요청을 받아 적절한 핸들러(컨트롤러)로 전달합니다. 각 요청을 처리한 후 적절한 뷰를 선택하여 응답을 반환합니다.
+<br/>
+<b>Handler Mapping</b>
+요청 URL을 어떤 컨트롤러가 처리할지 결정합니다. 스프링은 여러 가지 핸들러 매핑 전략을 제공하며, 개발자는 이를 통해 URL과 컨트롤러 메서드를 매핑할 수 있습니다.
+<br/>
+<b>Controller</b>
+사용자의 요청을 처리하고, 모델 데이터를 준비하여 뷰에 전달합니다. @Controller 또는 @RestController 애너테이션을 사용합니다.
+<br/>
+<b>View Resolver</b>
+컨트롤러가 반환한 논리적 뷰 이름을 실제 뷰로 변환하는 역할을 합니다. JSP, Thymeleaf, FreeMarker 등 다양한 뷰 리졸버를 설정할 수 있습니다.
+<br/>
+<b>ModelAndView</b>
+컨트롤러가 반환하는 객체로, 모델 데이터와 뷰 이름을 함께 담고 있습니다.
+<br/>
+동작 흐름
+요청 수신: 클라이언트의 HTTP 요청이 DispatcherServlet에 도달합니다.
+핸들러 매핑: DispatcherServlet은 요청 URL을 분석하여 적절한 컨트롤러를 찾기 위해 HandlerMapping을 사용합니다.
+핸들러 호출: DispatcherServlet은 찾아낸 컨트롤러를 호출하여 요청을 처리합니다.
+모델 준비: 컨트롤러는 필요한 데이터를 준비하여 모델에 담고, 뷰 이름과 함께 ModelAndView 객체를 반환합니다.
+뷰 리졸버: DispatcherServlet은 ViewResolver를 사용하여 논리적 뷰 이름을 실제 뷰로 변환합니다.
+응답 생성: 최종적으로 뷰가 렌더링되어 클라이언트에게 응답이 반환됩니다.
+  </pre>
+</details>
+
+<details>
+  <summary></summary>
   </br>
   <pre>
 
