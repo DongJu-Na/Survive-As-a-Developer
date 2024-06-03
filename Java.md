@@ -169,3 +169,25 @@ Heap 메모리를 재활용하기 위해서 더이상 참조 되지 않는 객�
 
 </pre>
 </details>
+
+<br/>
+
+<details>
+  <summary>접근제어자에 대해서 설명해볼 수 있나요?</summary>
+  </br>
+<pre>
+
+
+</pre>
+</details>
+
+<br/>
+
+<details>
+  <summary>제네릭타입에 대해서 설명해볼 수 있나요?</summary>
+  </br>
+<pre>
+
+
+</pre>
+</details>
