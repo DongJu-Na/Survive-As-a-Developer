@@ -175,9 +175,40 @@ Heap 메모리를 재활용하기 위해서 더이상 참조 되지 않는 객�
 <details>
   <summary>접근제어자에 대해서 설명해볼 수 있나요?</summary>
   </br>
+  <table>
+  <thead>
+    <tr>
+      <th>접근 제어자</th>
+      <th>접근 가능 범위</th>
+      <th>설명</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>public</td>
+      <td>모든 클래스</td>
+      <td>클래스, 메서드, 또는 필드가 모든 다른 클래스에서 접근 가능.</td>
+    </tr>
+    <tr>
+      <td>protected</td>
+      <td>동일 패키지 및 하위 클래스</td>
+      <td>동일 패키지 내의 클래스와 이 클래스를 상속받은 하위 클래스에서 접근 가능.</td>
+    </tr>
+    <tr>
+      <td>default</td>
+      <td>동일 패키지</td>
+      <td>접근 제어자를 명시하지 않으면 기본 접근 수준은 default (package-private)로 설정되며, 동일 패키지 내의 클래스에서만 접근 가능.</td>
+    </tr>
+    <tr>
+      <td>private</td>
+      <td>동일 클래스</td>
+      <td>클래스 내부에서만 접근 가능.</td>
+    </tr>
+  </tbody>
+</table>
+<br/>
 <pre>
-
-
+공개범위는 public  >  protected  >  default(생략)  >  private 순
 </pre>
 </details>
 
@@ -187,7 +218,48 @@ Heap 메모리를 재활용하기 위해서 더이상 참조 되지 않는 객�
   <summary>제네릭타입에 대해서 설명해볼 수 있나요?</summary>
   </br>
 <pre>
-
-
+<b>제네릭 타입(Generic Types)</b>은 클래스나 메서드를 정의할 때, 사용할 데이터 타입을 미리 지정하는 것이 아니라, 인스턴스를 생성하거나 메서드를 호출할 때 구체적인 타입을 지정할 수 있도록 하는 기능입니다. 제네릭은 코드의 재사용성을 높이고, 컴파일 시 타입 안전성을 제공합니다.
+<br/>
+<b>제네릭 타입의 장점</b>
+1.타입 안전성: 컴파일 시 타입 검사를 통해 런타임 오류를 줄일 수 있습니다.
+2.재사용성: 하나의 클래스나 메서드가 다양한 타입을 지원할 수 있습니다.
+3.가독성: 코드의 가독성과 유지보수성을 높입니다.
 </pre>
+<br/>
+<table>
+  <thead>
+    <tr>
+      <th>제네릭 타입</th>
+      <th>설명</th>
+      <th>예시</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>&lt;T&gt;</td>
+      <td>일반적인 타입 파라미터</td>
+      <td>public class Box&lt;T&gt; { private T item; }</td>
+    </tr>
+    <tr>
+      <td>&lt;E&gt;</td>
+      <td>컬렉션의 요소 타입</td>
+      <td>public class List&lt;E&gt; { void add(E element); }</td>
+    </tr>
+    <tr>
+      <td>&lt;K, V&gt;</td>
+      <td>맵의 키와 값 타입</td>
+      <td>public class Map&lt;K, V&gt; { V get(K key); }</td>
+    </tr>
+    <tr>
+      <td>&lt;N&gt;</td>
+      <td>숫자 타입</td>
+      <td>public class Numeric&lt;N extends Number&gt; { N number; }</td>
+    </tr>
+    <tr>
+      <td>&lt;T, U, V&gt;</td>
+      <td>다중 타입 파라미터</td>
+      <td>public class Triple&lt;T, U, V&gt; { T first; U second; V third; }</td>
+    </tr>
+  </tbody>
+</table>
 </details>
