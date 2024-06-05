@@ -263,3 +263,182 @@ Heap 메모리를 재활용하기 위해서 더이상 참조 되지 않는 객�
   </tbody>
 </table>
 </details>
+
+<br/>
+
+<details>
+  <summary>함수형 인터페이스에 대해서 설명해볼 수 있나요?</summary>
+  </br>
+<pre>
+함수형 인터페이스(Functional Interface)는 하나의 추상 메서드만을 가지는 인터페이스를 의미합니다. 이러한 인터페이스는 Java 8에서 람다 표현식과 함께 도입되었으며, 람다 표현식의 대상 타입으로 사용할 수 있습니다. 함수형 인터페이스는 함수형 프로그래밍 스타일을 Java에 도입하기 위한 중요한 요소입니다.
+</pre>
+
+<table>
+  <thead>
+    <tr>
+      <th>함수형 인터페이스</th>
+      <th>설명</th>
+      <th>추상 메서드</th>
+      <th>예시</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Predicate&lt;T&gt;</td>
+      <td>매개변수 T를 받아 boolean을 반환</td>
+      <td>boolean test(T t)</td>
+      <td>
+        <pre>
+Predicate&lt;Integer&gt; isPositive = x -> x &gt; 0;
+System.out.println(isPositive.test(5)); // 출력: true
+        </pre>
+      </td>
+    </tr>
+    <tr>
+      <td>Function&lt;T, R&gt;</td>
+      <td>매개변수 T를 받아 R을 반환</td>
+      <td>R apply(T t)</td>
+      <td>
+        <pre>
+Function&lt;String, Integer&gt; lengthFunction = String::length;
+System.out.println(lengthFunction.apply("Hello")); // 출력: 5
+        </pre>
+      </td>
+    </tr>
+    <tr>
+      <td>Supplier&lt;T&gt;</td>
+      <td>매개변수를 받지 않고 T를 반환</td>
+      <td>T get()</td>
+      <td>
+        <pre>
+Supplier&lt;String&gt; stringSupplier = () -> "Hello";
+System.out.println(stringSupplier.get()); // 출력: Hello
+        </pre>
+      </td>
+    </tr>
+    <tr>
+      <td>Consumer&lt;T&gt;</td>
+      <td>매개변수 T를 받아서 처리하고 반환값 없음</td>
+      <td>void accept(T t)</td>
+      <td>
+        <pre>
+Consumer&lt;String&gt; printConsumer = System.out::println;
+printConsumer.accept("Hello"); // 출력: Hello
+        </pre>
+      </td>
+    </tr>
+    <tr>
+      <td>UnaryOperator&lt;T&gt;</td>
+      <td>입력값과 출력값의 타입이 동일한 함수</td>
+      <td>T apply(T t)</td>
+      <td>
+        <pre>
+UnaryOperator&lt;Integer&gt; square = x -> x * x;
+System.out.println(square.apply(5)); // 출력: 25
+        </pre>
+      </td>
+    </tr>
+    <tr>
+      <td>BinaryOperator&lt;T&gt;</td>
+      <td>두 개의 동일한 타입 매개변수를 받아 동일한 타입을 반환</td>
+      <td>T apply(T t1, T t2)</td>
+      <td>
+        <pre>
+BinaryOperator&lt;Integer&gt; sum = (a, b) -> a + b;
+System.out.println(sum.apply(3, 5)); // 출력: 8
+        </pre>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+</details>
+
+<br/>
+
+<details>
+  <summary>Checked Exception, Unchecked Exception에 대해서 설명해볼 수 있나요?</summary>
+  </br>
+<pre>
+<b>Checked Exception</b>
+체크드 익셉션은 컴파일러가 예외 처리를 강제하는 예외입니다. 즉, 체크드 예외가 발생할 가능성이 있는 코드에서는 반드시 예외 처리를 해야 합니다. 이러한 예외는 주로 프로그램 외부의 문제(예: 파일 입출력, 네트워크 통신 등)로 인해 발생합니다.
+
+특징:
+
+컴파일 시점에 예외 처리 여부를 검사.
+Exception 클래스를 상속하지만, RuntimeException을 상속하지 않음.
+반드시 try-catch 블록이나 throws 키워드를 사용해 예외를 처리해야 함.
+
+<b>Unchecked Exception</b>
+언체크드 익셉션은 컴파일러가 예외 처리를 강제하지 않는 예외입니다. 주로 프로그래머의 실수(예: 잘못된 타입 캐스팅, 배열 인덱스 초과 등)로 인해 발생합니다.
+
+특징:
+
+런타임 시점에 예외가 발생.
+RuntimeException 클래스를 상속.
+예외 처리를 강제하지 않지만, 필요에 따라 예외 처리를 할 수 있음.
+</pre>
+
+<table>
+  <thead>
+    <tr>
+      <th>구분</th>
+      <th>체크드 예외 (Checked Exception)</th>
+      <th>언체크드 예외 (Unchecked Exception)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>상속 관계</td>
+      <td>Exception 클래스를 상속하나, RuntimeException을 상속하지 않음</td>
+      <td>RuntimeException 클래스를 상속</td>
+    </tr>
+    <tr>
+      <td>컴파일러 강제 여부</td>
+      <td>컴파일 시 예외 처리를 강제</td>
+      <td>컴파일 시 예외 처리를 강제하지 않음</td>
+    </tr>
+    <tr>
+      <td>주로 발생하는 상황</td>
+      <td>프로그램 외부의 문제 (파일 입출력, 네트워크 통신 등)</td>
+      <td>프로그래머의 실수 (잘못된 타입 캐스팅, 배열 인덱스 초과 등)</td>
+    </tr>
+    <tr>
+      <td>예외 처리 방법</td>
+      <td>try-catch 블록이나 throws 키워드를 사용하여 예외를 처리해야 함</td>
+      <td>예외 처리가 선택 사항이지만 필요에 따라 처리 가능</td>
+    </tr>
+    <tr>
+      <td>예시</td>
+      <td>
+        <pre>
+        
+import java.io.FileReader;
+import java.io.IOException;
+
+public class CheckedExceptionExample {
+    public static void main(String[] args) {
+        try {
+            FileReader reader = new FileReader("somefile.txt");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+        </pre>
+      </td>
+      <td>
+        <pre>
+public class UncheckedExceptionExample {
+    public static void main(String[] args) {
+        int[] numbers = {1, 2, 3};
+        System.out.println(numbers[5]);  // ArrayIndexOutOfBoundsException 발생
+    }
+}
+        </pre>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+</details>
