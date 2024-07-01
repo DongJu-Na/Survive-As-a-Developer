@@ -178,16 +178,45 @@ Spring MVC의 중심 컴포넌트로, 모든 요청을 받아 적절한 핸들�
 <br/>
 
 <details>
-  <summary></summary>
+  <summary>스프링과 스프링부트 차이점에 대해서 설명해볼 수 있나요?</summary>
   </br>
   <pre>
-
+스프링(Spring)과 스프링부트(Spring Boot)는 둘 다 자바 기반의 애플리케이션 프레임워크입니다. 하지만 그 목적과 사용 방식에는 차이가 있습니다.
   </pre>
-  <p><b></b><br/><br/>
-  <code></code>
-  <ul>
-   <li></li>
-   <li></li>
-  </ul>
-  </p>
+    <table>
+        <thead>
+            <tr>
+                <th>특징</th>
+                <th>Spring</th>
+                <th>Spring Boot</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>목적 및 특징</td>
+                <td>모듈화된 프레임워크, 다양한 계층 개발 가능</td>
+                <td>설정을 최소화하고 빠르게 애플리케이션 구축 가능</td>
+            </tr>
+            <tr>
+                <td>설정</td>
+                <td>XML, 자바 어노테이션, 자바 설정 클래스</td>
+                <td>자동 설정, `application.properties` 또는 `application.yml` 사용</td>
+            </tr>
+            <tr>
+                <td>내장 서버</td>
+                <td>별도로 설치 및 설정 필요</td>
+                <td>내장 서버 포함 (톰캣, 제티, 언더토우)</td>
+            </tr>
+            <tr>
+                <td>시작 방법</td>
+                <td>디펜던시와 설정 직접 구성</td>
+                <td>스타터 프로젝트 사용</td>
+            </tr>
+            <tr>
+                <td>운영 및 배포</td>
+                <td>WAR 파일로 패키징하여 외부 서블릿 컨테이너에 배포</td>
+                <td>JAR 파일로 패키징하여 독립 실행형 애플리케이션으로 배포</td>
+            </tr>
+        </tbody>
+    </table>
 </details>
