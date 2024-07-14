@@ -442,3 +442,58 @@ public class UncheckedExceptionExample {
 </table>
 
 </details>
+
+<br/>
+
+<details>
+  <summary>자바 리플렉션에 대해서 설명해볼 수 있나요?</summary>
+  </br>
+<pre>
+자바 리플렉션(Java Reflection)은 런타임에 클래스, 메서드, 필드 등을 동적으로 검사하고 조작할 수 있는 기능입니다. 리플렉션을 사용하면 프로그램 실행 중에 객체의 메타데이터(클래스, 메서드, 필드 등)를 분석하고, 이를 통해 동적으로 객체를 생성하거나 메서드를 호출할 수 있습니다.
+
+주요 개념:
+1. 클래스 정보 얻기:
+   - `Class<?>` 객체를 통해 클래스의 메타데이터를 얻을 수 있습니다.
+   - 예: 
+      ```java 
+      Class<?> clazz = Class.forName("com.example.MyClass"); 
+      ```
+
+2. 생성자 접근:
+   - 클래스의 생성자를 통해 새로운 인스턴스를 동적으로 생성할 수 있습니다.
+   - 예: 
+     ```java
+     Constructor<?> constructor = clazz.getConstructor(String.class);
+     Object instance = constructor.newInstance("parameter");
+     ```
+
+3. 메서드 접근:
+   - 클래스의 메서드 정보를 얻고, 동적으로 메서드를 호출할 수 있습니다.
+   - 예:
+     ```java
+     Method method = clazz.getMethod("myMethod", String.class);
+     Object result = method.invoke(instance, "argument");
+     ```
+
+4. 필드 접근:
+   - 클래스의 필드 정보를 얻고, 필드 값을 읽거나 쓸 수 있습니다.
+   - 예:
+     ```java
+     Field field = clazz.getField("myField");
+     field.set(instance, "new value");
+     Object value = field.get(instance);
+     ```
+
+5. 리플렉션의 장점:
+   - 동적 모듈 로딩 및 객체 조작: 컴파일 타임에 알 수 없는 클래스나 메서드를 런타임에 동적으로 로드하고 사용할 수 있습니다.
+   - 프레임워크 개발: 리플렉션을 이용하여 의존성 주입, 애너테이션 기반 설정 등 다양한 기능을 구현할 수 있습니다.
+
+6. 리플렉션의 단점:
+   - 성능 저하: 리플렉션은 일반적인 메서드 호출보다 느립니다.
+   - 보안 문제: 접근 제어를 우회할 수 있으므로, 보안상 문제가 발생할 수 있습니다.
+   - 유지보수 어려움: 코드 가독성이 떨어지고, 리플렉션을 과도하게 사용하면 유지보수가 어려워질 수 있습니다.
+
+자바 리플렉션은 강력한 도구이지만, 필요할 때 신중하게 사용하는 것이 좋습니다.
+
+</pre>
+</details>
