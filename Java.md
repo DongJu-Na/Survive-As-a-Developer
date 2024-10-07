@@ -600,3 +600,11 @@ public class UncheckedExceptionExample {
 </details>
 
 <br/>
+
+<details>
+  <summary>Enum 에 대해서 설명해보세요.</summary>
+  </br>
+<pre>
+ Enum은 "Enumeration"의 약자다. Enumeration은 "열거, 목록, 일람표" 라는 뜻을 가지고 있으며, 보통 한글로는 열거형이라고 부른다. 즉, 열거형(enum)은 요소, 멤버라 불리는 명명된 값의 집합을 이루는 자료형이다
+</pre>
+</details>
