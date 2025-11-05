@@ -608,3 +608,162 @@ public class UncheckedExceptionExample {
  Enum은 "Enumeration"의 약자다. Enumeration은 "열거, 목록, 일람표" 라는 뜻을 가지고 있으며, 보통 한글로는 열거형이라고 부른다. 즉, 열거형(enum)은 요소, 멤버라 불리는 명명된 값의 집합을 이루는 자료형이다
 </pre>
 </details>
+
+<br/> <details> <summary>JVM 메모리 모델 & happens-before / volatile / synchronized</summary> </br> <pre> 핵심: 멀티스레드 환경에서 "최신값을 보장하느냐"와 "실행 순서를 보장하느냐" 문제.
+
+JVM 메모리 구성
+
+Thread별: Program Counter, Stack
+
+공용: Heap(객체), Metaspace(클래스 메타), Code Cache 등
+
+JMM(happens-before)
+
+A의 쓰기가 B의 읽기보다 "논리적으로 먼저" 보장되면, B는 A의 최신값을 본다.
+
+lock/unlock, volatile write→read, 스레드 시작/종료 등은 happens-before를 성립시킴.
+
+volatile
+
+가시성 보장(캐시 무시, 메인메모리 교환) + 재배치 금지(일부 순서 보장)
+
+원자성은 보장 X (long/double 64bit는 보장되지만 복합 연산은 X)
+
+synchronized
+
+상호배제(Mutual Exclusion) + 진입/퇴장 시점의 happens-before 보장
+
+짧은 임계구역이면 간단/안전, 과도한 사용은 경합 증가
+
+면접 포인트: "공유변수는 volatile 또는 동기화 없이는 최신값을 못 볼 수 있다"를
+실제 버그 예시(폴링 플래그, 더블체크 로킹 등)로 설명하면 좋다.
+</pre>
+
+</details> <br/> <details> <summary>HashMap 내부 동작 & ConcurrentHashMap 차이</summary> </br> <pre> 1) HashMap - 해시→버킷 인덱싱, 충돌 시 체이닝(자바8: 버킷 길이 ≥ 8이면 트리화, O(logN)) - loadFactor 기본 0.75, 용량 2배 리사이즈 시 재해시 - 단일 스레드 기준 빠름, 멀티스레드 put/resize 동시엔 위험(데이터 손상 가능)
+
+ConcurrentHashMap
+
+세그먼트 락이 아닌 CAS/노드 락 기반으로 더 미세한 동시성
+
+size()는 근사값(고비용 정밀 계산은 필요 시만), compute/merge 류 원자적 갱신 제공
+
+null key/value 불가(명확성/경합 방지)
+
+면접 포인트: "멀티스레드 쓰기엔 HashMap 금지, CHM의 compute/merge로 원자 갱신" 한 줄로.
+</pre>
+
+</details> <br/> <details> <summary>equals / hashCode / compareTo 계약(Contract)</summary> </br> <pre> 1) equals 계약: 반사성/대칭성/추이성/일관성 + null에 대해 false 2) hashCode 계약: equals가 true면 hashCode도 동일해야 함 3) compareTo: 정렬 순서 부여. equals와 일관되지 않으면 정렬 컬렉션에서 이상 동작
+
+함정: 키로 쓰는 객체의 필드를 변경하면 컬렉션에서 "유실"될 수 있음(해시 버킷이 바뀜).
+대응: 키는 가급적 불변(immutable), equals/hashCode에 쓰는 필드는 불변 유지.
+</pre>
+
+</details> <br/> <details> <summary>제네릭 & 와일드카드(PECS) – extends/super의 의도</summary> </br> <pre> PECS: "Producer Extends, Consumer Super" - 생산자(읽기)면 <? extends T>, 소비자(쓰기)면 <? super T>
+
+예)
+void copy(List<? super T> dst, List<? extends T> src) { ... }
+
+추가:
+
+타입 소거(Type Erasure)로 new T() 불가, 런타임 제네릭 정보 부분 소실
+
+배열은 공변, 제네릭은 불공변 → List<Object>에 List<String> 대입 불가
+
+</pre>
+</details> <br/> <details> <summary>Optional 모범 사용</summary> </br> <pre> - 반환 타입 전용. 필드/매개변수로는 남용 금지(중첩 Optional, 직렬화 이슈) - null 대체 저장소로 쓰지 말기 - orElse vs orElseGet: orElse는 항상 인자 평가, orElseGet은 필요할 때만 평가(지연) - get() 사용 지양 → orElseThrow/map/flatMap/filter 조합으로 처리
+
+면접 한 줄: "Optional은 '값이 없을 수도 있음'을 명시하는 반환 타입 컨벤션"이라고 정리.
+</pre>
+
+</details> <br/> <details> <summary>Stream 병렬(Parallel)과 주의점</summary> </br> <pre> - parallel()은 공용 ForkJoinPool(및 분할 가능 데이터)에 적합 - CPU 바운드/큰 작업/비순차 처리에 유리, 작은 컬렉션·I/O 바운드는 손해 - 상태 있는 람다/공유 가변 객체 접근 금지(데이터 레이스) - 정렬/순서 보장 연산은 병렬 이점 감소
+
+체크리스트:
+
+데이터 크기/분할 비용
+
+박싱/언박싱 빈도
+
+순서 의존성
+
+공용 풀 경쟁(서버 환경에선 전용 Executor 고려)
+
+</pre>
+</details> <br/> <details> <summary>CompletableFuture 핵심 패턴</summary> </br> <pre> - thenApply(동기 변환), thenCompose(비동기 합성), allOf/anyOf(조합) - 예외 처리: exceptionally / handle(결과, 예외 모두 다룸) - 타임아웃: orTimeout, completeOnTimeout - 풀 분리: supplyAsync(..., executor)로 서비스별 Executor 주입
+
+면접 포인트: "조합 가능성(합성) + 예외/타임아웃 전략"을 실제 API 호출 예시로 말하기.
+</pre>
+
+</details> <br/> <details> <summary>ExecutorService & 쓰레드풀 설계</summary> </br> <pre> - CPU 바운드: 고정 크기 풀(Fixed, 코어 수 ±), I/O 바운드: Cached/크기 큰 풀 - 종료: shutdown() → awaitTermination() → 필요 시 shutdownNow() - submit은 Future 반환(예외는 Future에서), execute는 반환 없음 - 풀 누수 방지: 앱 종료 훅에서 정리, 장기 블로킹 작업은 전용 풀로 분리
+
+면접 포인트: "풀 크기 = 작업 특성(CPU/I-O) 기반"과 "정상 종료 절차"를 한 줄로.
+</pre>
+
+</details> <br/> <details> <summary>동기화 도구 비교: synchronized / ReentrantLock / ReadWriteLock</summary> </br> <pre> - synchronized: 간단/최적화 잘됨, 블록/메서드 단위 - ReentrantLock: tryLock(타임아웃), 조건변수(Condition), 공정성 옵션 - ReadWriteLock: 읽기 경쟁 높고 쓰기 적은 경우 유리(동시 다중 읽기)
+
+결정 팁:
+
+단순 임계구역 → synchronized
+
+타임아웃/중단/조건 대기 필요 → ReentrantLock
+
+읽기 비중 아주 높음 → ReadWriteLock
+
+</pre>
+</details> <br/> <details> <summary>Concurrent 컬렉션 선택 가이드</summary> </br> <pre> - ConcurrentHashMap: 동시성 키-값 저장. compute/merge로 원자적 갱신 - CopyOnWriteArrayList: 읽기 빈번·쓰기 드물 때. 쓰기 비용 매우 큼(복사 발생) - BlockingQueue(Linked/Array): 생산자-소비자 패턴 - ConcurrentLinkedQueue: 가벼운 비블로킹 큐
+
+면접 포인트: "읽기 위주면 CopyOnWrite..., 생산자-소비자면 BlockingQueue".
+</pre>
+
+</details> <br/> <details> <summary>불변 객체(Immutable) & 방어적 복사</summary> </br> <pre> 장점: 스레드 안전, 캐싱/공유 유리, equals/hashCode 안정 방법: - 모든 필드 final, setter 없음 - 컬렉션은 불변 래퍼(List.copyOf/Collections.unmodifiableList) - 외부로 내보낼 때 방어적 복사(특히 Date/배열)
+
+최근 문법: record(Java 16+)로 값 객체 간결 정의(자동 equals/hashCode/toString)
+</pre>
+
+</details> <br/> <details> <summary>java.time 모범 사용(LocalDate/Instant/ZonedDateTime)</summary> </br> <pre> - LocalDate/LocalDateTime: 시간대 정보 없음(시차/서머타임 변환 불가) - Instant: UTC 기준 절대 시각(서버/로그에 적합) - ZonedDateTime: 시간대 포함, DST 안전 변환
+
+권장: 저장/전송은 Instant(또는 UTC ISO-8601), 표시 시 ZoneId로 변환.
+</pre>
+
+</details> <br/> <details> <summary>try-with-resources & Suppressed Exceptions</summary> </br> <pre> - AutoCloseable 자원 자동 해제, 닫기 순서는 역순 - 본문 예외와 닫기 예외가 동시 발생하면 닫기 예외는 suppressed로 보관 - getSuppressed()로 진단 가능
+
+예)
+try (InputStream in = ...; OutputStream out = ...) { ... }
+</pre>
+
+</details> <br/> <details> <summary>ClassLoader & 리소스 로딩</summary> </br> <pre> - 부모 위임 모델: App → Platform → Bootstrap - getResourceAsStream("path/..")는 classpath 기준, 파일경로와 혼동 금지 - 컨테이너/플러그인 환경에선 클래스 충돌 가능 → 의존 버전/범위 관리 중요
+
+면접 포인트: "부모 위임 + classpath 리소스와 파일시스템 구분".
+</pre>
+
+</details> <br/> <details> <summary>String/CharSequence 성능 팁</summary> </br> <pre> - 반복 결합은 StringBuilder 사용(+ 루프 안에서 String 누적 금지) - StringBuffer는 동기화 비용, 단일 스레드에선 Builder가 적합 - intern() 과용 금지(메모리/GC 압박)
+
+체크: 대량 포맷팅은 Formatter보다 StringBuilder + 미리 크기 예측이 유리.
+</pre>
+
+</details> <br/> <details> <summary>직렬화(Serializable) 사용 시 주의</summary> </br> <pre> - 가능하면 도메인 직렬화 대신 JSON/Protobuf 등 명시적 포맷 권장 - 꼭 필요하면 serialVersionUID 명시, 민감정보는 transient - readObject/readResolve로 불변성/보안 보완 가능
+
+면접 포인트: "내/외부 계약은 명시적 스키마(버전 관리) 사용 권장".
+</pre>
+
+</details> <br/> <details> <summary>애너테이션 & 메타애너테이션 / 리플렉션</summary> </br> <pre> - @Retention(SOURCE/CLASS/RUNTIME), @Target, @Repeatable - 런타임 처리: 리플렉션으로 애너테이션 읽어 동작 제어(DI, AOP, 검증 등) - 단점: 성능/가독성 저하 가능 → 핵심 경로에서 과용 금지 </pre> </details> <br/> <details> <summary>NIO.2 (Files/Path/WatchService) & 대용량 I/O</summary> </br> <pre> - Files/Path: 파일 조작 유틸(복사/이동/워크) - WatchService: 디렉터리 변경 감시(생성/수정/삭제) - FileChannel/메모리 매핑(MappedByteBuffer): 대용량 처리/랜덤 접근 유리
+
+면접 포인트: "대용량은 채널/버퍼, 변경감시는 WatchService".
+</pre>
+
+</details> <br/> <details> <summary>성능 측정: JMH / Flight Recorder(JFR) 기초</summary> </br> <pre> - "측정 없이 최적화 금지": JMH로 마이크로벤치(워밍업/측정 분리) - 애플리케이션 실측: JFR + Mission Control로 프로파일(할당/잠금/GC) - GC 튜닝은 "목표 지연/처리량"을 먼저 정의 후 근거 기반으로 진행 </pre> </details> <br/> <details> <summary>(최근 문법) switch 식/패턴 매칭/record/sealed(버전 정책에 따라)</summary> </br> <pre> - switch expression: 값 반환형, 화살표 구문 - instanceof 패턴 매칭: 캐스팅 축약 - record: 불변 데이터 캐리어 - sealed class: 상속 허용 범위 제한(모델 안전성)
+
+주의: 팀/런타임 자바 버전 정책에 맞춰 사용.
+</pre>
+
+</details> <br/> <details> <summary>Enum 에 대해서 설명해보세요.</summary> </br> <pre> Enum(Enumaration의 약자)은 "열거형"으로, 유한한 상수 집합을 타입으로 표현. 장점: - 타입 안전(임의 문자열/정수보다 안전), switch/Map 키로 적합 - 필드/메서드 포함 가능(상태·행동 캡슐화), 인터페이스 구현 가능 - 싱글턴 구현에도 사용(Effective Java 권장)
+
+예)
+public enum OrderStatus {
+REQUESTED(100), APPROVED(200), REJECTED(400);
+private final int code;
+OrderStatus(int code){ this.code = code; }
+public int code(){ return code; }
+}
+</pre>
+
+</details> <br/>
